@@ -219,12 +219,12 @@ of: a numeric id, a keyword id, and a length in bytes.")
 					   (+ (* pos item-size) (/ item-size 2))
 					   (* (1+ pos) item-size)))))
 		       (:float
-			(ieee-754:decode-ieee-float
+			(decode-float32
 			 (parse-int buffer
 					(* pos item-size)
 					(* (1+ pos) item-size))))
 		       (:double
-			(ieee-754:decode-ieee-double
+			(decode-float64
 			 (parse-int buffer
 					(* pos item-size)
 					(* (1+ pos) item-size))))))

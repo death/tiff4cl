@@ -25,6 +25,9 @@
 (defpackage :tiff4cl
   (:nicknames :tiff)
   (:use :common-lisp)
+  (:import-from #:ieee-floats
+                #:decode-float32
+                #:decode-float64)
   (:export #:parse-TIFF
 	   #:print-TIFF-tags
 	   #:map-TIFF-tags

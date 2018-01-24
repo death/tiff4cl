@@ -37,7 +37,7 @@
     "A TIFF file parser that reads the tags leaving the actual image
 data alone."
     :licence "LGPL"
-    :depends-on (:ie3fp)
+    :depends-on (:ieee-floats)
     :components
     ((:file "package")
      (:file "util" :depends-on ("package"))
