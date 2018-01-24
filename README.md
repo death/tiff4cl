@@ -18,5 +18,5 @@ version that's currently in Quicklisp, tiff4cl-20150804-http.
 
 # license
 
-The license of the original as well as this fork is some version of
-the GNU Lesser Generic Public License (LGPL).
+The license of the original as well as this fork is version 2.1 of the
+GNU Lesser Generic Public License (LGPL).
