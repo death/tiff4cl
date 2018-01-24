@@ -583,7 +583,7 @@ of: a numeric id, a keyword id, and a length in bytes.")
 	(when start
 	  (file-position file start))
 	(parse-TIFF-stream file end))
-      (with-open-file (stream file)
+      (with-open-file (stream file :element-type '(unsigned-byte 8))
 	(when start
 	  (file-position stream start))
 	(parse-TIFF-stream stream end))))
