@@ -751,15 +751,16 @@ of: a numeric id, a keyword id, and a length in bytes.")
       ifds)))
 
 (defun parse-TIFF (file &key start end)
-  (if (streamp file)
-      (progn
-	(when start
-	  (file-position file start))
-	(parse-TIFF-stream file end))
-      (with-open-file (stream file :element-type '(unsigned-byte 8))
-	(when start
-	  (file-position stream start))
-	(parse-TIFF-stream stream end))))
+  (typecase file
+    (stream
+     (when start
+       (file-position file start))
+     (parse-TIFF-stream file end))
+    (t
+     (with-open-file (stream file :element-type '(unsigned-byte 8))
+       (when start
+	 (file-position stream start))
+       (parse-TIFF-stream stream end)))))
 
 (defun map-IFD-tags (function ifd)
   (dolist (tag (ifd-tags ifd))
@@ -769,6 +770,7 @@ of: a numeric id, a keyword id, and a length in bytes.")
 	  (funcall function tag)))))
 
 (defun map-TIFF-tags (function ifds)
+  (setf ifds (ensure-ifds ifds))
   (dolist (ifd ifds)
     (map-IFD-tags function ifd)))
 
@@ -785,6 +787,7 @@ of: a numeric id, a keyword id, and a length in bytes.")
 (defun print-TIFF-tags (ifds &optional stream)
   (unless stream
     (setf stream *standard-output*))
+  (setf ifds (ensure-ifds ifds))
   (labels ((print-IFD (ifd indent)
 	     (loop
 		for tag in (ifd-tags ifd)
@@ -801,3 +804,10 @@ of: a numeric id, a keyword id, and a length in bytes.")
        do
 	 (format stream "~&IFD ~A:~%" i)
 	 (print-IFD ifd 2))))
+
+(defun ensure-ifds (ifds-designator)
+  (etypecase ifds-designator
+    ((or string stream pathname)
+     (parse-tiff ifds-designator))
+    (list
+     ifds-designator)))
